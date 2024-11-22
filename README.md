@@ -37,5 +37,20 @@ Deployment
 The application has been deployed on Render. You can access it at:
 https://aurva-app.onrender.com/
 
+Database Schema  
+ Table 1: `carrots`  
+| Column         | Type      | Description                     |  
+|----------------|-----------|---------------------------------|  
+| `id`           | INTEGER   | Primary key.                   |  
+| `filename`     | STRING    | Name of the uploaded file.     |  
+| `upload_time`  | DATETIME  | Time when the file was uploaded.|  
+
+Table 2: `potatoes`  
+| Column            | Type      | Description                              |  
+|-------------------|-----------|------------------------------------------|  
+| `id`              | INTEGER   | Primary key.                            |  
+| `carrot_id`       | INTEGER   | Foreign key linking to `carrots.id`.    |  
+| `sensitive_data`  | STRING    | Classified sensitive data.              |  
+| `classification`  | STRING    | Type of the sensitive data (e.g., PAN). |  
 
 
