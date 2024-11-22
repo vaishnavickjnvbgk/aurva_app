@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Scanner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn-custom {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-view-results {
+            background-color: #007bff;
+            color: white;
+            margin-top: 15px;
+        }
+        .alert {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>Upload Your File to Scan</h2>
+        <p class="lead">Select a text file and upload it for scanning</p>
+    </div>
+
+    <div id="errorMessage" class="alert alert-danger"></div>
+
+    <form action="/" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <div class="mb-3">
+            <label for="file" class="form-label">Choose a File</label>
+            <input class="form-control" type="file" id="file" name="file" accept=".txt" required>
+            <div id="fileHelp" class="form-text">Only text files (.txt) are allowed.</div>
+        </div>
+        <button type="submit" class="btn btn-custom btn-lg w-100" id="submitBtn">Upload & Scan</button>
+    </form>
+
+    <div id="loading" style="display:none;" class="text-center mt-4">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p>Scanning... Please wait.</p>
+    </div>
+
+    <!-- Button to view scanned results -->
+    <div class="text-center">
+        <a href="/list" class="btn btn-view-results btn-lg w-100">See Scanned Results</a>
+    </div>
+</div>
+
+<script>
+    // Prevent default form submission and handle via AJAX (for smoother UX)
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Show loading spinner
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('submitBtn').disabled = true;
+
+        // Clear any previous error message
+        document.getElementById('errorMessage').style.display = 'none';
+
+        // Create FormData object for the file
+        let formData = new FormData();
+        let file = document.getElementById('file').files[0];
+        formData.append('file', file);
+
+        // Use fetch API to upload the file asynchronously
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();  // Parse the JSON response
+            } else {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+        })
+        .then(data => {
+            document.getElementById('loading').style.display = 'none';
+            if (data.status === 'success') {
+                alert(data.message);  // Show success message from backend
+                window.location.href = "/list";  // Redirect to the list of scans
+            } else {
+                throw new Error(data.message);
+            }
+        })
+        .catch(error => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('errorMessage').textContent = error.message;
+            document.getElementById('errorMessage').style.display = 'block';
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
