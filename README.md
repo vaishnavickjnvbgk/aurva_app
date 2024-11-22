@@ -27,7 +27,7 @@ Command	Description
 Run the application locally:" python app.py	"
 Run the application in Docker:" docker compose up --build "	
 Run test cases:pytest test_app.py	
-Access the application at http://127.0.0.1:8080.(port as specified in code)
+Access the application at http://127.0.0.1:8080.  (port as specified in code)
 
 
 Testing
