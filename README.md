@@ -37,6 +37,11 @@ Deployment
 The application has been deployed on Render. You can access it at:
 https://aurva-app.onrender.com/
 
+Diagram of Client Server Architecture
+![Browser](https://github.com/user-attachments/assets/b7beec54-0b9a-4612-91f2-3f67591710bf)
+
+
+
 Database Schema  
  Table 1: `carrots`  
 | Column         | Type      | Description                     |  
