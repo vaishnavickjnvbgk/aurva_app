@@ -16,6 +16,7 @@ Docker (optional)
 
 
 Installation
+
 1.Clone the repository:
 git clone https://github.com/your-username/sensitive-data-scanner.git  
 cd sensitive-data-scanner  
